@@ -1,3 +1,4 @@
+
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -10,10 +11,27 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       Nomor_Rumah: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique:true,
       },
-      Status_Occupancy: {
-        type: Sequelize.BOOLEAN
+      Nama_Pemilik:{
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique:true,
+      },
+      Status:{
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      UserId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onUpdate: "cascade",
+        onDelete: "cascade",
       },
       createdAt: {
         allowNull: false,

@@ -11,12 +11,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Rumah.hasMany(Penghuni, { foreignKey: 'ID_Rumah' });
+      Rumah.belongsTo(models.User, { foreignKey: 'UserId' });
     }
   }
   Rumah.init({
-    Nomor_Rumah: DataTypes.STRING,
-    Status_Occupancy: DataTypes.BOOLEAN
+    Nomor_Rumah: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: {
+        args: true,
+        msg: "Nomor Rumah must be unique."
+      },
+      validate: {
+        notEmpty: { msg: "Nomor Rumah is requied !"},
+        notNull: {msg: "Nomor Rumah is required !"},
+      }
+    },
+    Nama_Pemilik: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: {
+        args: true,
+        msg: "Nama Pemilik must be unique."
+      },
+      validate: {
+        notEmpty: { msg: "Nama Pemilik  is requied !"},
+        notNull: {msg: "Nama Pemilik is required !"},
+      }
+    },
+    Status: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Rumah',

@@ -11,13 +11,37 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Pembayaran.belongsTo(Penghuni, { foreignKey: 'ID_Penghuni', onDelete: 'CASCADE' });
-      Pembayaran.belongsTo(Iuran_Bulanan, { foreignKey: 'ID_Iuran', onDelete: 'CASCADE' });
+      Pembayaran.belongsTo(models.User, { foreignKey: 'UserId' });
     }
   }
   Pembayaran.init({
+    Nomor_Pembayaran: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Nomor Pembayaran is requied !"},
+        notNull: {msg: "Nomor Pembayaran is required !"},
+      }
+    },
+    Nama_Pembayaran: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Nama Pembayaran is requied !"},
+        notNull: {msg: "Nama Pembayaran is required !"},
+      }
+    },
     Tanggal_Pembayaran: DataTypes.DATE,
-    Jumlah_Pembayaran: DataTypes.INTEGER
+    Jumlah_Pembayaran: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Jumlah Pembayaran is requied !"},
+        notNull: {msg: "Jumlah Pembayaran is required !"},
+      }
+    },
+    UserId: DataTypes.INTEGER,
+    Status_Pembayaran: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Pembayaran',

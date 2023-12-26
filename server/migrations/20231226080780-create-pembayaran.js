@@ -15,7 +15,29 @@ module.exports = {
       Jumlah_Pembayaran: {
         type: Sequelize.INTEGER
       },
-      createdAt: {
+      Nomor_Pembayaran: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        unique: true,
+      },
+      Nama_Pembayaran:{
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      Status_Pembayaran: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      UserId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onUpdate: "cascade",
+        onDelete: "cascade",
+      },
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
