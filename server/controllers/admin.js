@@ -4,9 +4,6 @@ class Admin {
   // Create Rumah
   static async createRumah(req, res, next) {
     try {
-        if (req.user.role !== 'admin') {
-        throw { name: "Forbidden", message: "You don't have permission to perform this action" };
-          }
       const { Nomor_Rumah, Nama_Pemilik, Status } = req.body;
 
       const newRumah = await Rumah.create({
@@ -40,9 +37,9 @@ class Admin {
   // Read One Rumah by ID
   static async getRumahById(req, res, next) {
     try {
-      const { rumahId } = req.params;
+      const { id } = req.params;
 
-      const rumah = await Rumah.findByPk(rumahId, {
+      const rumah = await Rumah.findByPk(id, {
         include: [{ model: User }],
       });
 
@@ -60,10 +57,10 @@ class Admin {
   // Update Rumah by ID
   static async updateRumah(req, res, next) {
     try {
-      const { rumahId } = req.params;
+      const { id } = req.params;
       const { Nomor_Rumah, Nama_Pemilik, Status } = req.body;
 
-      const rumah = await Rumah.findByPk(rumahId);
+      const rumah = await Rumah.findByPk(id);
 
       if (!rumah) {
         return res.status(404).json({ message: "Rumah not found" });
@@ -96,92 +93,6 @@ class Admin {
     }
   }
   
-  // Create User
-  static async createUser(req, res, next) {
-    try {
-      const { username, password, role } = req.body;
-
-      const newUser = await User.create({
-        username,
-        password,
-        role,
-      });
-
-      res.status(200).json({ message: `Data user with username ${username} successfully added` });
-    } catch (error) {
-      console.log(error.name, "<<<< error ini");
-      next(error);
-    }
-  }
-
-  // Read All Users
-  static async getAllUsers(req, res, next) {
-    try {
-      const users = await User.findAll();
-
-      res.status(200).json(users);
-    } catch (error) {
-      console.log(error.name, "<<<< error ini");
-      next(error);
-    }
-  }
-
-  // Read One User by ID
-  static async getUserById(req, res, next) {
-    try {
-      const { userId } = req.params;
-
-      const user = await User.findByPk(userId);
-
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      res.status(200).json(user);
-    } catch (error) {
-      console.log(error.name, "<<<< error ini");
-      next(error);
-    }
-  }
-
-  // Update User by ID
-  static async updateUser(req, res, next) {
-    try {
-      const { userId } = req.params;
-      const { username, password, role } = req.body;
-
-      const user = await User.findByPk(userId);
-
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      await user.update({
-        username,
-        password,
-        role,
-      });
-
-      res.status(200).json(user);
-    } catch (error) {
-      console.log(error.name, "<<<< error ini");
-      next(error);
-    }
-  }
-
-  // Delete User by ID
-  static async deleteUser(req, res, next) {
-    try {
-      // console.log("udah nyampe controller");
-      let id = +req.params.id;
-      let user = await User.destroy({ where: { id } });
-      // console.log(product);
-      if (!user) throw { name: "NotFound" };
-      res.status(200).json({ msg: `User success to delete` });
-    } catch (error) {
-      next(error);
-    }
-  }
   // Create Pembayaran
   static async createPembayaran(req, res, next) {
     try {
@@ -217,9 +128,9 @@ class Admin {
   // Read One Pembayaran by ID
   static async getPembayaranById(req, res, next) {
     try {
-      const { pembayaranId } = req.params;
+      const { id } = req.params;
 
-      const pembayaran = await Pembayaran.findByPk(pembayaranId);
+      const pembayaran = await Pembayaran.findByPk(id);
 
       if (!pembayaran) {
         return res.status(404).json({ message: "Pembayaran not found" });
@@ -235,10 +146,10 @@ class Admin {
   // Update Pembayaran by ID
   static async updatePembayaran(req, res, next) {
     try {
-      const { pembayaranId } = req.params;
+      const { id } = req.params;
       const { Nomor_Pembayaran, Nama_Pembayaran, Tanggal_Pembayaran, Jumlah_Pembayaran, Status_Pembayaran } = req.body;
 
-      const pembayaran = await Pembayaran.findByPk(pembayaranId);
+      const pembayaran = await Pembayaran.findByPk(id);
 
       if (!pembayaran) {
         return res.status(404).json({ message: "Pembayaran not found" });
@@ -272,6 +183,7 @@ class Admin {
       next(error);
     }
   }
+  
 }
 
 module.exports = Admin;
